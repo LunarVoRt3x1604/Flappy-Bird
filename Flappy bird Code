@@ -1,0 +1,990 @@
+//TDJ's Gradient Function{
+ var gradient = (function() {
+    background(0, 0, 0, 0);
+    noStroke();
+    var c2 = color(87, 162, 237);
+    var c1 = color(150, 172, 181);
+    
+    for (var i = 0; i < height; i++) {
+        fill(lerpColor(c1, c2, i/height));
+        rect(0,i,width,1);
+    }
+    
+    return get();
+}) ();
+//} 
+// Nharle's code {
+size(600,600,P2D); 
+var fSize = 5;
+var gravity = 0.7;
+var score = 0;
+var mouse = false;
+// Bird Sprites {
+var birdPixels = [
+   [
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "              aaaaaa                      ",
+   "            aafffabba                     ",
+   "           affggabbbba                    ",
+   "         aaaagggacbbaba                   ",
+   "        aeeeeaggacbbaba                   ",
+   "        aeeeeeaggacbbba                   ",
+   "        afeeefagggaaaaaa                  ",
+   "         afffagggadddddda                 ",
+   "          aaahhhadaaaaaa                  ",
+   "          ahhhhhhaddddda                  ",
+   "           aahhhhhaaaaa                   ",
+   "             aaaaa                        ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   ],
+    [
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "              aaaaaa                      ",
+   "            aafffabba                     ",
+   "           affggabbbba                    ",
+   "          agggggacbbaba                   ",
+   "         aaaaaggacbbaba                   ",
+   "        aeeeeeaggacbbba                   ",
+   "        aeeeeeagggaaaaaa                  ",
+   "         aaaaagggadddddda                 ",
+   "          ahhhhhadaaaaaa                  ",
+   "          ahhhhhhaddddda                  ",
+   "           aahhhhhaaaaa                   ",
+   "             aaaaa                        ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   "                                          ",
+   ],
+   
+            [
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "              aaaaaa                      ",
+    "            aafffabba                     ",
+    "           affggabbbba                    ",
+    "          agggggacbbaba                   ",
+    "         aggggggacbbaba                   ",
+    "        agaaaggggacbbba                   ",
+    "        aafffaggggaaaaaa                  ",
+    "        afeeefaggadddddda                 ",
+    "        aeeeeeahadaaaaaa                  ",
+    "        aeeeeahhhaddddda                  ",
+    "         aaaahhhhhaaaaa                   ",
+    "             aaaaa                        ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    "                                          ",
+    ],
+   ];
+
+var Pixel = function(x,y,w,h,color) {
+this.x = x;
+this.y = y;
+this.w = w;
+this.h = h;
+this.color = color;
+
+};
+Pixel.prototype.display = function() {
+    noStroke();
+fill(this.color);
+rect(this.x,this.y,this.w,this.h);
+}; 
+var pixels = [];
+var PixelArt = function(num,xPos,yPos) {
+    pushMatrix();
+  
+    this.num = num;
+    for(var y = 0;  y < birdPixels[this.num].length; y ++) {
+ 
+ 
+ for(var x = 0; x < birdPixels[this.num][y].length; x++) {
+     
+     switch(birdPixels[this.num][y][x]) {
+         case "a":
+                          pixels.push(new Pixel(x * fSize + xPos, y * fSize + yPos, fSize,fSize,color(84,56,69),this.num));
+             break;
+            case "b":
+                 pixels.push(new Pixel(x * fSize + xPos, y * fSize + yPos, fSize,fSize,color(252,255,250),this.num));
+                 break;
+                 case "c":
+                     pixels.push(new Pixel(x * fSize + xPos, y * fSize + yPos, fSize,fSize,color(245,241,241),this.num));
+                     break;
+                     case "d":
+                    pixels.push(new Pixel(x * fSize + xPos, y * fSize + yPos, fSize,fSize,color(255,103,76),this.num));
+                     break;
+                     case "e":
+                         pixels.push(new Pixel(x * fSize + xPos, y * fSize + yPos, fSize, fSize, color(250,252,234),this.num));
+                         break;
+                         case "f":
+                             pixels.push(new Pixel(x * fSize + xPos,y * fSize + yPos,fSize,fSize,color(248,255,71),this.num));
+                             break;
+                             case "g":
+                                 pixels.push(new Pixel(x * fSize + xPos, y * fSize + yPos, fSize, fSize,color(250,241,62),this.num));
+                                 break;
+                                 case "h":
+                                     pixels.push(new Pixel(x * fSize + xPos, y * fSize + yPos, fSize,fSize,color(250,194,59),this.num));
+                                     break;
+ 
+     }
+ }
+ 
+ popMatrix();
+}
+ for (var i = 0; i < pixels.length; i ++) {
+      
+        pixels[i].display();
+       
+    }  
+};
+ var birdSprites = [];
+ //1
+ background(0,0);
+ PixelArt(0,-33,-24);
+ birdSprites.push(get(5,8,89,66));
+ //2
+ background(0,0);
+ PixelArt(1,60,-24);
+birdSprites.push(get(100,8,86,66));
+ //3
+  background(0,0);
+  PixelArt(2,154,-24);
+  birdSprites.push(get(193,8,86,66));
+ //}
+ var rectCollide = function(px, pY, pW, pH,x, y, w, h) {
+    if(px + pW > x && px < x + w && pY + pH > y && pY < y + h) {
+        return true;
+    }
+};
+ var FlappyBird = function(x,y) {
+     this.flash = false;
+     this.a = 150;
+     this.x = x;
+     this.y = y;
+     this.sprite = 0;
+     this.spriteT = 0;
+     this.back = false;
+     this.isDead = false;
+     this.gravity = 0;
+     this.imX = x;
+     this.imY = y;
+     this.w = 89;
+     this.h = 66;
+     this.w2 = 79;
+     this.h2 = 56;
+     this.canJump = true;
+     this.rot = 0;
+     this.rotate = 0;
+ };
+ 
+ FlappyBird.prototype.display = function() {
+     if(this.flash) {
+         this.a -=5;
+         fill(255,255,255,this.a);
+         rect(0,0,width * 2,height * 2);
+         if(this.a <= 0) {
+         this.flash = false;
+         this.a = 150;
+         }
+     }
+     this.y = constrain(this.y,0,600 - this.h);
+     if(this.y >= 600-this.h) {
+         this.isDead = true;
+     }
+     if(this.isDead) {
+         this.sprite = 1;
+     }
+     if(this.sprite === 0) {
+         this.imX = this.x;
+     }
+     else if(this.sprite === 1) {
+         this.imX = this.x + 2;
+     }
+     else if(this.sprite === 2) {
+         this.imX = this.x + 1;
+     }
+     pushMatrix();
+     this.rot = constrain(this.rot,-20,20);
+     translate(this.imX + this.w/2 - 10,this.y + this.h/2);
+      rotate(this.rot);
+     image(birdSprites[this.sprite],-this.w/2 + 10,-this.h/2);
+      
+     popMatrix();
+ 
+    if(this.spriteT > 8 && !this.back && !this.isDead) { 
+        this.sprite += 1; this.spriteT = 0; 
+        
+    } 
+    
+    else if (this.spriteT > 8 && this.back && !this.isDead) { 
+        this.sprite -= 1; this.spriteT = 0; 
+        
+    }
+    
+    if(this.sprite === 2 && !this.isDead) { 
+        this.back = true; 
+        
+    } 
+    
+    else if(this.sprite === 0 && !this.isDead) { 
+        this.back = false; 
+        
+    }  
+      
+     this.sprite = constrain(this.sprite,0,2);
+     this.spriteT ++;
+      
+ };
+ FlappyBird.prototype.Movement = function() {
+     this.gravity += gravity;
+     this.rotate += 0.2;
+     this.rot += this.rotate;
+     this.y += this.gravity;
+     if(mouse && this.canJump && !this.isDead) {
+         this.gravity = -11;
+         this.rotate = -4;
+         this.canJump = false;
+     }
+      if(!mouse && !this.isDead) {
+          this.canJump = true;
+      }
+ };
+ var flappyBird = new FlappyBird(54,200);
+ var Pipe = function(x,y) {
+     this.x = x;
+     this.y = y;
+     this.passed = false;
+     this.point = true;
+ };
+ Pipe.prototype.display = function() {
+     if(this.x + fSize * 17 < flappyBird.x) {
+         this.passed = true;
+     }
+     if(this.passed && this.point) {
+         score += 1;
+         this.point = false;
+     }
+     // Calculates distance from the top of the pipe head to the top of the screen
+     this.distY = dist(0,0,0,this.y - fSize);
+     //Calculates distance from the bottom of the pipe head to the bottom of the screen.
+     this.distY2 = dist(0,this.y + fSize * 69,0,600);
+     if(!flappyBird.isDead) {
+     this.x -= 3.5;
+     }
+     noStroke();
+     //Top Pipe
+     //{
+     //Pipe Head
+     fill(92,84,71);
+     rect(this.x,this.y,fSize,fSize * 13);
+     rect(this.x + fSize * 21,this.y,fSize,fSize * 13);
+     rect(this.x,this.y + fSize * 13,fSize * 22,fSize * 1);
+     rect(this.x,this.y - fSize,fSize * 22,fSize * 1);
+     fill(215,250,136);
+     rect(this.x + fSize,this.y,fSize,fSize * 13);
+     fill(148,228,98);
+     rect(this.x + fSize * 2,this.y,fSize,fSize * 13);
+     rect(this.x + fSize * 4,this.y,fSize,fSize * 13);
+     fill(114,190,61);
+     rect(this.x + fSize * 3,this.y,fSize,fSize * 13);
+     rect(this.x + fSize * 5,this.y,fSize * 13,fSize * 13);
+     rect(this.x + fSize * 19,this.y,fSize * 1,fSize * 13);
+     fill(87,123,41);
+     rect(this.x + fSize * 18,this.y,fSize * 1,fSize * 13);
+     rect(this.x + fSize * 20,this.y,fSize * 1,fSize * 13);
+     //Pipe Body
+     fill(92,84,71);
+     rect(this.x + fSize,this.y - fSize * 1 - this.distY,fSize,this.distY);
+     rect(this.x + fSize * 20,this.y - fSize * 1 - this.distY,fSize,this.distY);
+
+     fill(215,250,136);
+     rect(this.x + fSize + fSize,this.y - fSize * 1 - this.distY,fSize,this.distY);
+     fill(148,228,98);
+     rect(this.x + fSize * 2 + fSize,this.y - fSize * 1 - this.distY,fSize,this.distY);
+     rect(this.x + fSize * 4 + fSize,this.y - fSize * 1 - this.distY,fSize,this.distY);
+     fill(114,190,61);
+     rect(this.x + fSize * 3 + fSize,this.y - fSize * 1 - this.distY,fSize,this.distY);
+     rect(this.x + fSize * 6,this.y - fSize * 1 - this.distY,fSize * 11,this.distY);
+     rect(this.x + fSize * 19 - fSize,this.y - fSize * 1 - this.distY,fSize * 1,this.distY);
+     fill(87,123,41);
+     rect(this.x + fSize * 18 - fSize,this.y - fSize * 1 - this.distY,fSize * 1,this.distY);
+     rect(this.x + fSize * 20 - fSize,this.y - fSize * 1 - this.distY,fSize * 1,this.distY);
+     //}
+     //Bottom Pipe
+     //{
+     //Pipe Head
+     fill(92,84,71);
+     rect(this.x,this.y + fSize*55,fSize,fSize * 13);
+     rect(this.x + fSize * 21,this.y + fSize*55,fSize,fSize * 13);
+     rect(this.x,this.y + fSize * 13 + fSize*55,fSize * 22,fSize * 1);
+     rect(this.x,this.y - fSize + fSize*55,fSize * 22,fSize * 1);
+     fill(215,250,136);
+     rect(this.x + fSize,this.y + fSize*55,fSize,fSize * 13);
+     fill(148,228,98);
+     rect(this.x + fSize * 2,this.y + fSize*55,fSize,fSize * 13);
+     rect(this.x + fSize * 4,this.y + fSize*55,fSize,fSize * 13);
+     fill(114,190,61);
+     rect(this.x + fSize * 3,this.y + fSize*55,fSize,fSize * 13);
+     rect(this.x + fSize * 5,this.y + fSize*55,fSize * 13,fSize * 13);
+     rect(this.x + fSize * 19,this.y + fSize*55,fSize * 1,fSize * 13);
+     fill(87,123,41);
+     rect(this.x + fSize * 18,this.y + fSize*55,fSize * 1,fSize * 13);
+     rect(this.x + fSize * 20,this.y + fSize*55,fSize * 1,fSize * 13);
+    //Pipe Body
+     fill(92,84,71);
+     rect(this.x + fSize,this.y - fSize * 1 + fSize*70,fSize,this.distY2);
+     rect(this.x + fSize * 20,this.y - fSize * 1 + fSize*70,fSize,this.distY2);
+
+     fill(215,250,136);
+     rect(this.x + fSize + fSize,this.y - fSize * 1 + fSize*70,fSize,this.distY2);
+     fill(148,228,98);
+     rect(this.x + fSize * 2 + fSize,this.y - fSize * 1 + fSize*70,fSize,this.distY2);
+     rect(this.x + fSize * 4 + fSize,this.y - fSize * 1 + fSize*70,fSize,this.distY2);
+     fill(114,190,61);
+     rect(this.x + fSize * 3 + fSize,this.y - fSize * 1 + fSize*70,fSize,this.distY2);
+     rect(this.x + fSize * 6,this.y - fSize * 1 + fSize*70,fSize * 11,this.distY2);
+     rect(this.x + fSize * 19 - fSize,this.y - fSize * 1 + fSize*70,fSize * 1,this.distY2);
+     fill(87,123,41);
+     rect(this.x + fSize * 18 - fSize,this.y - fSize * 1 + fSize*70,fSize * 1,this.distY2);
+     rect(this.x + fSize * 20 - fSize,this.y - fSize * 1 + fSize*70,fSize * 1,this.distY2);
+     //}
+ 
+ };
+ Pipe.prototype.Collisions = function() {
+ if(rectCollide(flappyBird.x + 5,flappyBird.y + 5,flappyBird.w2,flappyBird.h2,this.x + fSize,this.y,fSize * 20,fSize * 13) && !flappyBird.isDead|| 
+ 
+ rectCollide(flappyBird.x + 5,flappyBird.y + 5,flappyBird.w2,flappyBird.h2,this.x + fSize * 2,this.y - fSize * 1 - this.distY,fSize * 17,this.distY) && !flappyBird.isDead||
+ 
+ rectCollide(flappyBird.x + 5,flappyBird.y + 5,flappyBird.w2,flappyBird.h2,this.x + fSize,this.y + fSize*55,fSize * 20,fSize * 13) && !flappyBird.isDead||
+ 
+rectCollide(flappyBird.x + 5,flappyBird.y + 5,flappyBird.w2,flappyBird.h2,this.x + fSize * 2,this.y - fSize * 1 + fSize*70,fSize * 17,this.distY2) && !flappyBird.isDead) {
+     flappyBird.isDead = true;
+     flappyBird.flash = true;
+ }
+ };
+ 
+ var pipes = [];
+ var timer = 0;
+
+mousePressed = function() {
+  mouse = true;  
+};
+mouseReleased = function() {
+    mouse = false;
+};
+//}
+//VVhiteTiger's code( I slightly modified the button code){
+var georgiaFont = createFont("Georgia");
+var scene = 'logo';
+var click = false;
+var mtX = 0;
+var mtX2 = 0;
+var mtX3 = 0;
+var mtX4 = 0;
+var mtX5 = 0;
+var clX = 429;
+var clX2 = 318;
+var clX3 = 223;
+mouseClicked = function() { 
+    click = true;
+     
+};
+
+var button = function(scenechange, size, message, x, y, width, height, radius, fade) {
+    if (click && mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) {
+        scene = scenechange;
+        flappyBird.isDead = false;
+        pipes.splice(0,pipes.length);
+        flappyBird.y = 200;
+        flappyBird.gravity = 0;
+        score = 0;
+        
+    }
+    
+    if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) {
+        fade = 100;
+    }
+     strokeWeight(3);
+    stroke(0, 0, 0);
+    fill(182, 219, 227);
+    rect(x,y,width,height,radius);
+    
+    fill(0,0,0,fade);
+    rect(x,y,width,height,radius);
+    
+    
+    textSize(size);
+    fill(0,0,0);
+    text(message,(x+width/2),(y+height/2));
+};
+var timer = 0;
+var fadeT = 0;
+var fadeP = 0;
+var fadeS = 2;
+var v = function (x,y,s) { 
+    
+pushMatrix();
+translate(x,y);
+scale(s);
+noStroke();    
+    
+beginShape();
+vertex(62,113);
+vertex(42,112);
+vertex(62,196);
+vertex(81,193);
+vertex(110,114);
+vertex(94,113);
+vertex(73,168);
+endShape(CLOSE);
+
+popMatrix();
+};  
+var h = function (x,y,s) { 
+    
+pushMatrix();
+translate(x,y);
+scale(s);
+noStroke();    
+    
+beginShape();
+vertex(59,148);
+vertex(58,239);
+vertex(73,237);
+vertex(77,189);
+vertex(108,187);
+vertex(108,235);
+vertex(126,229);
+vertex(121,137);
+vertex(105,141);
+vertex(104,172);
+vertex(75,173);
+vertex(72,143);
+endShape(CLOSE);
+
+popMatrix();
+};  
+var i = function (x,y,s) { 
+    
+pushMatrix();
+translate(x,y);
+scale(s);
+noStroke();    
+ 
+beginShape();
+vertex(63,159);
+vertex(136,156);
+vertex(134,172);
+vertex(106,171);
+vertex(108,232);
+vertex(136,228);
+vertex(129,256);
+vertex(56,250);
+vertex(60,231);
+vertex(79,229);
+vertex(84,175);
+vertex(63,169);
+endShape(CLOSE);
+
+popMatrix();
+}; 
+var t = function (x,y,sx,sy) { 
+    
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();    
+ 
+beginShape();
+vertex(79,182);
+vertex(147,180);
+vertex(146,200);
+vertex(118,197);
+vertex(119,262);
+vertex(102,258);
+vertex(101,198);
+vertex(81,194);
+endShape(CLOSE);
+
+popMatrix();
+};
+var e = function (x,y,sx,sy) { 
+    
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();    
+ 
+beginShape();
+vertex(63,173);
+vertex(60,279);
+vertex(121,275);
+vertex(118,254);
+vertex(77,255);
+vertex(78,221);
+vertex(107,219);
+vertex(105,197);
+vertex(79,193);
+vertex(77,168);
+vertex(101,169);
+vertex(96,151);
+vertex(65,150);
+endShape(CLOSE);
+
+popMatrix();
+};
+var g = function (x,y,s) { 
+    
+pushMatrix();
+translate(x,y);
+scale(s);
+noStroke();    
+ 
+beginShape();
+vertex(161,178);
+vertex(120,176);
+vertex(90,207);
+vertex(90,240);
+vertex(104,281);
+vertex(166,278);
+vertex(178,255);
+vertex(175,231);
+vertex(147,232);
+vertex(148,248);
+vertex(167,248);
+vertex(160,266);
+vertex(115,259);
+vertex(105,220);
+vertex(130,192);
+vertex(159,190);
+endShape(CLOSE);
+
+popMatrix();
+};
+var r = function (x,y,sx,sy) { 
+    
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();    
+ 
+beginShape();
+vertex(109,193);
+vertex(107,305);
+vertex(120,304);
+vertex(122,250);
+vertex(157,299);
+vertex(170,296);
+vertex(137,241);
+vertex(152,234);
+vertex(165,218);
+vertex(164,194);
+vertex(138,179);
+vertex(109,179);
+vertex(119,197);
+vertex(136,196);
+vertex(146,203);
+vertex(146,217);
+vertex(124,223);
+vertex(119,197);
+vertex(110,180);
+endShape(CLOSE);
+
+popMatrix();
+};
+var p = function (x,y,sx,sy) {
+
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();        
+    
+beginShape();
+vertex(100,306);
+vertex(121,303);
+vertex(118,204);
+vertex(149,201);
+vertex(165,184);
+vertex(165,160);
+vertex(143,142);
+vertex(91,146);
+vertex(113,162);
+vertex(137,160);
+vertex(147,171);
+vertex(141,187);
+vertex(117,189);
+vertex(113,162);
+vertex(91,146);
+endShape(CLOSE);
+
+popMatrix();
+
+};
+var s = function (x,y,sx,sy) {
+
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();        
+    
+beginShape();
+vertex(205,143);
+vertex(204,122);
+vertex(145,126);
+vertex(128,141);
+vertex(123,163);
+vertex(128,183);
+vertex(148,187);
+vertex(197,184);
+vertex(203,194);
+vertex(206,212);
+vertex(194,228);
+vertex(135,228);
+vertex(134,242);
+vertex(193,244);
+vertex(213,220);
+vertex(221,198);
+vertex(195,167);
+vertex(143,168);
+vertex(142,150);
+vertex(161,140);
+vertex(205,138);
+endShape(CLOSE);
+
+popMatrix();
+
+};
+var n = function (x,y,sx,sy) {
+
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();       
+    
+beginShape();
+vertex(88,311);
+vertex(89,229);
+vertex(100,229);
+vertex(130,307);
+vertex(137,306);
+vertex(138,227);
+vertex(151,227);
+vertex(149,317);
+vertex(117,314);
+vertex(98,246);
+vertex(97,314);
+endShape(CLOSE);
+
+popMatrix();
+
+};
+var presents = function (x,y,sx,sy) {
+    
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();       
+    
+p(5,327,0.8,0.8);
+r(35,268,1,1);
+e(158,318,1.0,0.9);
+s(180,325,0.8,1);
+e(303,318,1.0,0.9);
+n(331,141,1.2,1.35);
+t(419,179,1.28,1.48);
+s(518,325,0.8,1);
+
+popMatrix();
+
+};
+var vvhitetiger = function (x,y,sx,sy) {
+
+pushMatrix();
+translate(x,y);
+scale(sx,sy);
+noStroke();
+
+v(0,0,0.5);
+v(38,0,0.5);
+h(70,-19,0.5);
+i(112,-26,0.5);
+t(135,-62,0.63);
+e(199,-10,0.5,0.4);
+t(-20,-1,0.63);
+i(50,34,0.5);
+g(80,22,0.5);
+e(146,50,0.5,0.4);
+r(161,25,0.5,0.45);
+
+popMatrix();
+
+};
+var mt = function (x,y,s) {
+pushMatrix();
+translate(x,y);
+scale(s);
+noStroke();
+//base
+fill(102, 102, 102);
+triangle(150,361,269,610,30,610);
+//shadow
+fill(89, 89, 89);
+triangle(150,361,269,876,30,610);
+//peak
+fill(237, 247, 252);
+triangle(150,361,173,409,137,389);
+fill(237, 247, 252);
+triangle(150,361,160,400,125,412);
+
+popMatrix();
+};
+var cl = function (x,y,s) {
+    noStroke();
+    pushMatrix();
+    translate(x,y);
+    scale(s);
+    fill(255, 255, 255, 150);
+    
+    beginShape();
+    curveVertex(55,-18); 
+    curveVertex(62,-10); 
+    curveVertex(45,28); 
+    curveVertex(-6,22); 
+    curveVertex(-78,38); 
+    curveVertex(-110,0); 
+    curveVertex(-70,-24); 
+    curveVertex(-28,-67);
+    curveVertex(18,-56);
+    curveVertex(31,-29);
+    curveVertex(57,-15); 
+    curveVertex(152,28);
+    endShape();
+    
+    popMatrix();
+
+};
+
+//}
+draw = function() {
+ image(gradient,0,0);
+if (scene === "logo") { 
+timer++;
+background(0, 0, 0);
+
+fadeT = fadeT + fadeS;
+
+fill(0, 38, 7,fadeT);
+vvhitetiger(-33,-94,2.4,3.7);
+fill(22, 99, 42,fadeT);
+vvhitetiger(-33,-94,2.4,3.6);
+
+if (fadeT >= 270) {fadeS=-2;}
+
+if (timer >= 300) {fadeP+=3;}
+
+fill(0, 38, 7,fadeP);
+presents(-36,-584,0.86,1.73);
+fill(22, 99, 42,fadeP);
+presents(-36,-584,0.86,1.7);
+//filter(BLUR);
+if (timer === 500) {scene = 'menu';}
+else if (click === true) {scene = 'menu';}
+
+}
+else if (scene === "menu") {
+    
+   
+
+    textAlign(CENTER,CENTER);
+    textFont(georgiaFont);
+    textSize(43);
+    fill(182, 219, 227);
+    for (var i = 0; i < 75; i++) {
+    text("Flappy Bird", 300 + cos(i * 5) * 2, 74 + sin(i * 5) * 4);
+    }
+    textSize(43);
+    fill(150, 172, 181);
+    text("Flappy Bird", 300, 74);
+    
+    mt(-23,0,1);
+    mt(346,76,0.9);
+    
+    
+    button("play",50,"Play",238,354,146,103,15,8);
+  
+    button("how",50,"How",238,488,146,103,15,8);
+    noStroke();
+    
+}
+else if (scene === "how") {
+    
+    
+
+    textAlign(CENTER,CENTER);
+    textFont(georgiaFont);
+    textSize(43);
+    fill(182, 219, 227);
+    for (var i = 0; i < 75; i++) {
+    text("Click the Screen to flap.", 300 + cos(i * 5) * 2, 74 + sin(i * 5) * 4);
+    }
+    textSize(43);
+    fill(150, 172, 181);
+    text("Click the Screen to flap.", 300, 74);
+    
+    strokeWeight(3);
+    stroke(0, 0, 0);
+    fill(182, 219, 227);
+    button("menu",50,"Back",238,368,146,103,15,8);
+    noStroke();
+    
+    mt(-23,0,1);
+    mt(229,296,0.5);
+    mt(346,76,0.9);
+
+}
+else if (scene === "play") {
+    
+    
+
+//{
+//{
+if (clX <= -140) {clX = 680;}
+
+
+
+
+ 
+ 
+if (clX2 <= -140) {clX2 = 656;}
+if (clX3 <= -140) {clX3 = 670;}
+
+cl(clX,123,1);
+cl(clX2,188,0.63);
+cl(clX3,93,0.83);
+ 
+
+ 
+ 
+
+
+if(!flappyBird.isDead) {
+clX -= 0.9;
+clX2 -= 1.2;
+clX3 -= 1.1;
+}
+
+
+//}clouds
+//{
+if (mtX <= -240) {mtX = 660;}
+if (mtX2 <= -356) {mtX2 = 660;}
+if (mtX3 <= -570) {mtX3 = 660;}
+if (mtX4 <= -1000) {mtX4 = 660;}
+if (mtX5 <= -259) {mtX5 = 770;}
+
+mt(mtX-23,0,1);
+mt(mtX3+346,76,0.9);
+mt(mtX4+713,197,0.66);
+mt(mtX5-201,151,0.74);
+mt(mtX2+229,296,0.5);
+if(!flappyBird.isDead) {
+mtX -= 1.2;
+mtX2 -= 2.1;
+mtX3 -= 1.6;
+mtX4 -= 2;
+mtX5 -= 1.3;
+}
+//}moutains
+//}background
+// Nharle's flappy bird code{ 
+  timer ++;
+     if(timer > 120) {
+         pipes.push(new Pipe(600,random(0,300)));
+         timer = 0;
+     }
+     fill(255,0,0);
+    
+ 
+ textSize(100);
+ fill(0);
+ text(score,width/2 - 21,79);
+
+ 
+for(var i in pipes) {
+    if(pipes[i].x > -100) {
+    pipes[i].display();
+ pipes[i].Collisions();
+    }
+  
+}
+    flappyBird.display();
+flappyBird.Movement();
+if(flappyBird.isDead) {
+    button("menu",50,"Menu",238,488,146,103,15,8);
+}
+//}
+}
+
+click = false;
+};
+
+
+
